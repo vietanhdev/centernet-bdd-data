@@ -9,6 +9,7 @@ from .ddd_utils import compute_box_3d, project_to_image, draw_box_3d
 class Debugger(object):
   def __init__(self, ipynb=False, theme='black', 
                num_classes=-1, dataset=None, down_ratio=4):
+
     self.ipynb = ipynb
     if not self.ipynb:
       import matplotlib.pyplot as plt
@@ -43,6 +44,8 @@ class Debugger(object):
         (255, 0, 0), (0, 0, 255)]
     elif num_classes == 80 or dataset == 'coco':
       self.names = coco_class_name
+    elif num_classes == 10 or dataset == 'bdd':
+      self.names = bdd_class_name
     elif num_classes == 20 or dataset == 'pascal':
       self.names = pascal_class_name
     elif dataset == 'gta':
@@ -63,12 +66,14 @@ class Debugger(object):
       self.W = 1242
       self.H = 375
     num_classes = len(self.names)
+    print("num_classes: {}".format(num_classes))
     self.down_ratio=down_ratio
     # for bird view
     self.world_size = 64
     self.out_size = 384
 
   def add_img(self, img, img_id='default', revert_color=False):
+    print(self.names)
     if revert_color:
       img = 255 - img
     self.imgs[img_id] = img.copy()
@@ -442,7 +447,7 @@ pascal_class_name = ["aeroplane", "bicycle", "bird", "boat", "bottle", "bus",
 
 coco_class_name = [
      'person', 'bicycle', 'car', 'motorcycle', 'airplane',
-     'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
+     'bus', 'train', 'truck', 'boat', 'trafficlight', 'fire hydrant',
      'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse',
      'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack',
      'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis',
@@ -455,6 +460,9 @@ coco_class_name = [
      'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
      'scissors', 'teddy bear', 'hair drier', 'toothbrush'
 ]
+
+
+bdd_class_name = ['person', 'rider', 'car', 'bus', 'truck', 'bike', 'motor', 'traffic light', 'traffic sign', 'train']
 
 color_list = np.array(
         [
