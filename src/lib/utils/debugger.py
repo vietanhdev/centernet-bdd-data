@@ -66,7 +66,7 @@ class Debugger(object):
       self.W = 1242
       self.H = 375
     num_classes = len(self.names)
-    print("num_classes: {}".format(num_classes))
+    # print("num_classes: {}".format(num_classes))
     self.down_ratio=down_ratio
     # for bird view
     self.world_size = 64

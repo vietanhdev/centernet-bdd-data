@@ -50,7 +50,7 @@ def prefetch_test(opt):
   Dataset = dataset_factory[opt.dataset]
   opt = opts().update_dataset_info_and_set_heads(opt, Dataset)
   print(opt)
-  Logger(opt)
+  # Logger(opt)
   Detector = detector_factory[opt.task]
   
   split = 'val' if not opt.trainval else 'test'
@@ -66,8 +66,14 @@ def prefetch_test(opt):
   bar = Bar('{}'.format(opt.exp_id), max=num_iters)
   time_stats = ['tot', 'load', 'pre', 'net', 'dec', 'post', 'merge']
   avg_time_stats = {t: AverageMeter() for t in time_stats}
+  # total_time = 0
+  # n_processed_images = 0
   for ind, (img_id, pre_processed_images) in enumerate(data_loader):
+    # begin_time = time.time()
     ret = detector.run(pre_processed_images)
+    # total_time += time.time() - begin_time
+    # n_processed_images += 1
+    # print("AVG Image Time: {}".format(total_time / n_processed_images))
     results[img_id.numpy().astype(np.int32)[0]] = ret['results']
     Bar.suffix = '[{0}/{1}]|Tot: {total:} |ETA: {eta:} '.format(
                    ind, num_iters, total=bar.elapsed_td, eta=bar.eta_td)
@@ -78,6 +84,7 @@ def prefetch_test(opt):
     bar.next()
   bar.finish()
   dataset.run_eval(results, opt.save_dir)
+  # dataset.run_eval(None, opt.save_dir)
 
 def test(opt):
   os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
@@ -106,6 +113,7 @@ def test(opt):
       ret = detector.run(img_path, img_info['calib'])
     else:
       ret = detector.run(img_path)
+      # print(ret)
     
     results[img_id] = ret['results']
 

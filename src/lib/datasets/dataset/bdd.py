@@ -23,14 +23,14 @@ class BDD(data.Dataset):
     self.data_dir = os.path.join(opt.data_dir, 'BDD100k')
 
     if split == "test":
-      self.img_dir = os.path.join(self.data_dir, 'images/100k/{}'.format("val"))
+      self.img_dir = os.path.join(self.data_dir, 'images/100k/test')
     else:
-      self.img_dir = os.path.join(self.data_dir, 'images/100k/{}'.format(split))
+      self.img_dir = os.path.join(self.data_dir, 'images/100k/train')
 
     if split == 'test':
       self.annot_path = os.path.join(
           self.data_dir, 'annotations', 
-          'bdd100k_labels_images_det_coco_val.json').format(split)
+          'test.json')
     else:
       if opt.task == 'exdet':
         self.annot_path = os.path.join(
@@ -39,7 +39,7 @@ class BDD(data.Dataset):
       else:
         self.annot_path = os.path.join(
           self.data_dir, 'annotations', 
-          'bdd100k_labels_images_det_coco_{}.json').format(split)
+          '{}.json').format(split)
     self.max_objs = 128
     self.class_name = [
       '__background__', 'person', 'rider', 'car', 'bus', 'truck', 'bike', 'motor', 'traffic light', 'traffic sign', 'train']
@@ -108,9 +108,24 @@ class BDD(data.Dataset):
     # result_json = os.path.join(save_dir, "results.json")
     # detections  = self.convert_eval_format(results)
     # json.dump(detections, open(result_json, "w"))
-    self.save_results(results, save_dir)
+
+    catIds = self.coco.getCatIds(catNms=self.class_name[1:])
+
+    if results is not None:
+      self.save_results(results, save_dir)
     coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
     coco_eval = COCOeval(self.coco, coco_dets, "bbox")
+
+    print("All categories")
     coco_eval.evaluate()
     coco_eval.accumulate()
     coco_eval.summarize()
+
+    for i in range(len(catIds)):
+      catId = catIds[i]
+      catName = self.class_name[1:][i]
+      print("Category: {}".format(catName))
+      coco_eval.params.catIds = [catId]
+      coco_eval.evaluate()
+      coco_eval.accumulate()
+      coco_eval.summarize()

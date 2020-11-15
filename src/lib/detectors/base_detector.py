@@ -38,6 +38,12 @@ class BaseDetector(object):
     height, width = image.shape[0:2]
     new_height = int(height * scale)
     new_width  = int(width * scale)
+
+    # print("new_height", new_height)
+    # print("new_width", new_width)
+    # print("scale", scale)
+    # print("self.opt.fix_res", self.opt.fix_res)
+    # print("self.opt.pad", self.opt.pad)
     if self.opt.fix_res:
       inp_height, inp_width = self.opt.input_h, self.opt.input_w
       c = np.array([new_width / 2., new_height / 2.], dtype=np.float32)
@@ -53,6 +59,19 @@ class BaseDetector(object):
     inp_image = cv2.warpAffine(
       resized_image, trans_input, (inp_width, inp_height),
       flags=cv2.INTER_LINEAR)
+
+    import sys
+    np.set_printoptions(threshold=sys.maxsize)
+    # # print(inp_image.shape)
+    # cv2.imshow("debug", inp_image)
+    # cv2.waitKey(0)
+    # print(inp_image[200:300])
+    # exit(0)
+
+    # print(inp_image.shape)
+    # cv2.imshow("debug", inp_image)
+    # cv2.waitKey(0)
+    
     inp_image = ((inp_image / 255. - self.mean) / self.std).astype(np.float32)
 
     images = inp_image.transpose(2, 0, 1).reshape(1, 3, inp_height, inp_width)
@@ -99,7 +118,7 @@ class BaseDetector(object):
     load_time += (loaded_time - start_time)
     
     detections = []
-    for scale in self.scales:
+    for scale in self.scales: 
       scale_start_time = time.time()
       if not pre_processed:
         images, meta = self.pre_process(image, scale, meta)

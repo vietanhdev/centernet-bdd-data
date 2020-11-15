@@ -24,7 +24,7 @@ After install Anaconda:
     And disable cudnn batch normalization(Due to [this issue](https://github.com/xingyizhou/pytorch-pose-hg-3d/issues/16)).
     
      ~~~
-    # PYTORCH=/path/to/pytorch # usually ~/anaconda3/envs/CenterNet/lib/python3.6/site-packages/
+    # PYTORCH=/path/to/pytorch # usually ~/miniconda3/envs/gr_centernet_train/lib/python3.6/site-packages/
     # for pytorch v0.4.0
     sed -i "1194s/torch\.backends\.cudnn\.enabled/False/g" ${PYTORCH}/torch/nn/functional.py
     # for pytorch v0.4.1

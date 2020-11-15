@@ -1,7 +1,7 @@
 cd src
 # train
-# python main.py ctdet --exp_id coco_mobilenetv2_10 --arch mobilenetv2_10  --dataset bdd --batch_size 16 --lr 1e-4 --gpus 0 --num_workers 6
-python main.py ctdet --exp_id coco_mobilenetv2_10 --arch mobilenetv2_10  --dataset bdd --batch_size 16 --lr 1e-4 --gpus 0 --load_model ../exp/ctdet/coco_mobilenetv2_10/model_last.pth --resume  --lr_step 40 --num_epochs 45  --num_workers 6 --save_all
+# --load_model ../exp/ctdet/coco_mobilenetv2_10/model_last.pth
+python main.py ctdet --exp_id coco_mobilenetv2_10_512 --arch mobilenetv2_10  --dataset bdd --batch_size 16 --lr 5e-4 --gpus 0  --lr_step 35 --num_epochs 120 --input_res 512  --num_workers 6 --save_all --resume
 # # test
 # python test.py ctdet --exp_id coco_mobilenetv2_10 --arch mobilenetv2_10 --keep_res --resume
 # # flip test
