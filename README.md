@@ -6,7 +6,7 @@ Object detection, 3D detection, and pose estimation using center point detection
 > Xingyi Zhou, Dequan Wang, Philipp Kr&auml;henb&uuml;hl,        
 > *arXiv technical report ([arXiv 1904.07850](http://arxiv.org/abs/1904.07850))*         
 
-This project is based on original CenterNet - Objects as Points from [https://github.com/xingyizhou/CenterNet](https://github.com/xingyizhou/CenterNet). I added some customizations to train CenterNet on [BDD100k dataset](https://bdd-data.berkeley.edu/) for my advanced driver-assistance system project. The detailed training result can be found at [this blog post](https://bdd-data.berkeley.edu/).
+This project is based on original CenterNet - Objects as Points from [https://github.com/xingyizhou/CenterNet](https://github.com/xingyizhou/CenterNet). I added some customizations to train CenterNet on [BDD100k dataset](https://bdd-data.berkeley.edu/) for my advanced driver-assistance system project. The detailed training result can be found at [this blog post](https://aicurious.io/posts/adas-jetson-nano-intro-and-hardware/).
 
 Training instruction and be found at [original repository](https://github.com/xingyizhou/CenterNet).
 
